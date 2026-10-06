@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Overwatch Memory</title>
+    <meta
+      name="description"
+      content="A fan-made Overwatch memory game: find the pairs among the heroes and beat your best time."/>
+    <link rel="icon" href="images/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,600;1,700;1,800&family=Barlow:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <svg class="sprite" aria-hidden="true">
+      <symbol id="logo" viewBox="0 0 600 600">
+        <path
+          fill="#fa9c1e"
+          d="M 296.70405,0.00424149 C 229.93779,0.43221149 163.9322,24.232681 112.07437,66.087451 l 56.66164,65.785689 C 216.5573,94.134131 280.99173,78.755181 340.75427,90.636091 c 32.84344,6.31836 64.09548,20.739679 90.46333,41.237049 L 487.87924,66.087451 C 434.24075,22.804341 365.76667,-1.0306785 296.70405,0.00424149 z"/>
+        <path
+          fill="currentColor"
+          d="M 93.627932,82.252881 C 33.924062,138.34244 -1.0821983,219.87731 0.02552166,302.12246 0.06092166,387.49363 39.004212,471.35277 103.6776,526.81868 c 59.78108,52.2845 141.08577,78.91882 220.46136,72.18109 86.01035,-6.40518 167.64782,-52.34458 218.11716,-122.14284 49.12454,-66.32853 68.37083,-153.7971 52.06401,-234.90882 C 582.33252,179.85678 549.77957,122.31301 503.48268,79.542111 L 446.82104,145.3278 c 45.65578,43.03442 70.58508,106.55713 65.88486,169.22459 -2.05604,31.04856 -11.0736,61.69033 -26.31427,88.95944 l -115.47207,-111.53814 -58.26,-125.58266 -0.0876,190.17825 116.69522,112.92659 c -52.0019,40.40208 -123.35295,53.80249 -186.57773,35.89403 -25.74389,-7.18124 -50.12185,-19.23034 -71.30879,-35.39816 L 288.86927,356.56928 c -0.20481,-61.83078 0.7175,-128.57681 -6.9e-4,-190.3826 L 230.52166,291.97369 114.05785,404.43746 c -35.530468,-62.02488 -36.380378,-142.2105 -2.18183,-204.92738 10.69103,-20.0919 24.84106,-38.42801 41.25655,-54.18228 L 96.470932,79.542111 c -0.94767,0.90359 -1.89534,1.80717 -2.843,2.71077 z"/>
+      </symbol>
+    </svg>
+
+    <main>
+      <section class="home" id="home">
+        <header class="home-header">
+          <svg class="home-logo" aria-hidden="true"><use href="#logo" /></svg>
+          <h1 class="home-title">Overwatch <span>Memory</span></h1>
+          <p class="home-lead">Find every pair among the heroes. Pick a rank, then beat your best time.</p>
+        </header>
+
+        <div class="roster" aria-hidden="true">
+          <ul class="roster-track" id="roster"></ul>
+        </div>
+
+        <div class="lobby">
+          <section>
+            <h2 class="section-title">Choose your rank</h2>
+            <div class="modes">
+              <button class="mode" data-mode="12">
+                <img src="images/ranks/bronze.webp" alt="" />
+                <span class="mode-name">Bronze</span>
+                <span class="mode-size">12 cards</span>
+                <span class="mode-best" data-best="12">Best —</span>
+              </button>
+              <button class="mode" data-mode="24">
+                <img src="images/ranks/silver.webp" alt="" />
+                <span class="mode-name">Silver</span>
+                <span class="mode-size">24 cards</span>
+                <span class="mode-best" data-best="24">Best —</span>
+              </button>
+              <button class="mode" data-mode="36">
+                <img src="images/ranks/gold.webp" alt="" />
+                <span class="mode-name">Gold</span>
+                <span class="mode-size">36 cards</span>
+                <span class="mode-best" data-best="36">Best —</span>
+              </button>
+            </div>
+          </section>
+
+          <aside class="side">
+            <section class="panel">
+              <h2 class="section-title">How to play</h2>
+              <ul class="rules">
+                <li>Turn over two cards. Same hero? They stay face up.</li>
+                <li>Find all the pairs. The clock starts when you pick a rank.</li>
+                <li>Mouse, touch or keyboard (<kbd>Tab</kbd> then <kbd>Enter</kbd>).</li>
+              </ul>
+            </section>
+
+            <section class="panel panel-blue">
+              <h2 class="section-title">Your records</h2>
+              <ul class="records" id="records"></ul>
+              <button class="link-button" id="reset-records">Reset records</button>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===== Partie ===== -->
+      <section class="game" id="game" hidden>
+        <div class="hud">
+          <img class="hud-rank" id="hud-rank" src="images/ranks/bronze.webp" alt="" />
+          <p class="hud-box">Pairs <strong id="pairs">0</strong> / <span id="pairs-total">6</span></p>
+          <p class="hud-box">Time <strong id="time">0:00.0</strong></p>
+          <button class="link-button hud-menu" id="quit">Menu</button>
+        </div>
+        
+        <ul class="board" id="board" aria-label="Cards"></ul>
+      </section>
+    </main>
+
+    <!-- ===== Victoire ===== -->
+    <div class="victory" id="victory" hidden>
+      <div class="victory-content">
+        <p class="victory-title">Victory</p>
+        <p class="victory-time">Time <strong id="victory-time"></strong></p>
+        <p class="victory-record" id="new-record" hidden>New record!</p>
+        <p class="victory-best">Best <span id="victory-best"></span></p>
+        <div class="victory-buttons">
+          <button class="button" id="play-again"><span>Play again</span></button>
+          <button class="link-button" id="back-to-menu">Menu</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>
+        Fan-made, non-commercial project. Overwatch, its logo, its heroes and the rank icons are
+        trademarks and property of Blizzard Entertainment, Inc. Not affiliated with or endorsed by
+        Blizzard. Hero list from the <a href="https://overfast-api.tekrop.fr/">OverFast API</a>.
+      </p>
+    </footer>
+  </body>
+</html>
